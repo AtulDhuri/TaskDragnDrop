@@ -1,24 +1,32 @@
 <div class="column-grouping">
     <!-- Column Drop Zones (Groups) -->
-    <div class="group-container" cdkDropList [cdkDropListData]="columnGroups['group1']" (cdkDropListDropped)="onColumnDrop($event, 'group1')">
-      <div class="group-header">Group 1</div>
-      <div *ngFor="let column of columnGroups['group1']" class="column-item" cdkDrag [cdkDragData]="column">{{column}}</div>
+    <div class="group-container" cdkDropList [cdkDropListData]="columnGroups['group1']" (cdkDropListDropped)="onColumnDrop($event, 'group1')" cdkDropListOrientation="vertical">
+        <div class="group-header">Group 1</div>
+        <!-- <span *ngFor="let column of columnGroups['group1']" class="column-item-container" (click)="removeItem(column)" cdkDrag>{{column}}</span> -->
+        <mat-chip-row *ngFor="let column of columnGroups['group1']"
+        (removed)="removeItem(column)"
+        [editable]="true"
+        [aria-description]="'press enter to edit ' + column"
+      >
+        {{column}}
+        <button matChipRemove >
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+     
     </div>
-  
-    <div class="group-container" cdkDropList [cdkDropListData]="columnGroups['group2']" (cdkDropListDropped)="onColumnDrop($event, 'group2')">
-      <div class="group-header">Group 2</div>
-      <div *ngFor="let column of columnGroups['group2']" class="column-item" cdkDrag [cdkDragData]="column">{{column}}</div>
-    </div>
-  
+
+
+
     <!-- Main Data Table with Row Drag-and-Drop -->
-    <mat-table [dataSource]="groupedData" class="example-table" cdkDropList (cdkDropListDropped)="onRowDrop($event)">
-      <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
-        <mat-header-cell *matHeaderCellDef>{{column}}</mat-header-cell>
-        <mat-cell *matCellDef="let element" cdkDrag>{{element[column]}}</mat-cell>
-      </ng-container>
-  
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;" cdkDrag></mat-row>
+    <mat-table #table [dataSource]="groupedData" class="example-table" cdkDropList (cdkDropListDropped)="onRowDrop($event)">
+        <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+            <mat-header-cell *matHeaderCellDef cdkDrag [cdkDragData]="column" (click)="addColumnToGroup(column, 'group1')">{{column}}</mat-header-cell>
+            <mat-cell *matCellDef="let element" cdkDrag>{{element[column]}}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" cdkDrag></mat-row>
     </mat-table>
-  </div>
+</div>
   

@@ -34,8 +34,8 @@ export class DragComponent {
     displayedColumns: string[] = ['name', 'age', 'position', 'country'];
     
     columnGroups: ColumnGroups = {
-      group1: ['name', 'age'],
-      group2: ['position', 'country'],
+      group1: [],
+      group2: [],
     };
   
     groupedData: DataRow[] = [...this.dataSource];
@@ -83,5 +83,29 @@ export class DragComponent {
       const prevIndex = this.dataSource.findIndex((d) => d === event.item.data);
       moveItemInArray(this.dataSource, prevIndex, event.currentIndex);
       this.table.renderRows();
+    }
+
+    addColumnToGroup(columnName: string, group: string) {
+      console.log("Adding column:", columnName, "to group:", group); // Log the action
+
+      // Check if the column is already in the group
+      if (!this.columnGroups[group].includes(columnName)) {
+        // If not, add it to the group
+        this.columnGroups[group].push(columnName);
+      }
+      console.log(...this.columnGroups['group1']);
+      
+
+      // Update displayedColumns based on the new order
+  //    this.displayedColumns = [...this.columnGroups['group1']];
+    }
+
+    removeItem(column:string){
+      console.log(column, 'column');
+      const index = this.columnGroups['group1'].indexOf(column);
+      this.columnGroups['group1'].splice(index, 1);
+      console.log(...this.columnGroups['group1']);
+    
+      this.groupDataByDroppedColumn(column);
     }
 }
