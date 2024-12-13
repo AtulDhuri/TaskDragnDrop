@@ -80,7 +80,7 @@ export class DragComponent {
     }
 
     onRowDrop(event: CdkDragDrop<DataRow[]>) {
-      const prevIndex = this.dataSource.findIndex(d => d === event.item.data);
+      const prevIndex = this.dataSource.findIndex((d) => d === event.item.data);
       moveItemInArray(this.dataSource, prevIndex, event.currentIndex);
       this.table.renderRows();
     }
