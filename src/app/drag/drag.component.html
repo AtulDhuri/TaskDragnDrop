@@ -1,0 +1,24 @@
+<div class="column-grouping">
+    <!-- Column Drop Zones (Groups) -->
+    <div class="group-container" cdkDropList [cdkDropListData]="columnGroups['group1']" (cdkDropListDropped)="onColumnDrop($event, 'group1')">
+      <div class="group-header">Group 1</div>
+      <div *ngFor="let column of columnGroups['group1']" class="column-item" cdkDrag [cdkDragData]="column">{{column}}</div>
+    </div>
+  
+    <div class="group-container" cdkDropList [cdkDropListData]="columnGroups['group2']" (cdkDropListDropped)="onColumnDrop($event, 'group2')">
+      <div class="group-header">Group 2</div>
+      <div *ngFor="let column of columnGroups['group2']" class="column-item" cdkDrag [cdkDragData]="column">{{column}}</div>
+    </div>
+  
+    <!-- Main Data Table -->
+    <mat-table [dataSource]="groupedData" class="example-table">
+      <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+        <mat-header-cell *matHeaderCellDef>{{column}}</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element[column]}} </mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+  
