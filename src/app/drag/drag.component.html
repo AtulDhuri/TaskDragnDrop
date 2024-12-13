@@ -2,7 +2,7 @@
     <!-- Column Drop Zones (Groups) -->
     <div class="group-container" cdkDropList [cdkDropListData]="columnGroups['group1']" (cdkDropListDropped)="onColumnDrop($event, 'groupFirst')" cdkDropListOrientation="vertical" id="groupFirst" >
         <div class="group-header">Group 1</div>
-        <!-- <span *ngFor="let column of columnGroups['group1']" class="column-item-container" (click)="removeItem(column)" cdkDrag>{{column}}</span> -->
+     
         <mat-chip-row *ngFor="let column of columnGroups['group1']"
         (removed)="removeItem(column)"
         [editable]="true"
@@ -19,14 +19,14 @@
 
 
     <!-- Main Data Table with Row Drag-and-Drop -->
-    <mat-table #table [dataSource]="groupedData" class="example-table" cdkDropList (cdkDropListDropped)="onRowDrop($event)"  [cdkDropListOrientation]="'vertical'" >
+    <mat-table #table [dataSource]="dataSource" class="example-table" cdkDropList (cdkDropListDropped)="onRowDrop($event)"  [cdkDropListOrientation]="'vertical'" >
         <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
             <mat-header-cell *matHeaderCellDef cdkDrag [cdkDragData]="column"   (cdkDragDropped)="onHeaderDrop($event, 'groupFirst')">{{column}}</mat-header-cell>
             <mat-cell *matCellDef="let element" cdkDrag>{{element[column]}}</mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;" cdkDrag></mat-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" cdkDrag [cdkDragData]="displayedColumns"></mat-row>
     </mat-table>
 </div>
 
