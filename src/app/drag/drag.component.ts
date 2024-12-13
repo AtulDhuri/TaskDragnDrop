@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, CdkDragStart } from '@angular/cdk/drag-drop';
 import { MatTable } from '@angular/material/table';
 
 interface ColumnGroups {
@@ -86,13 +86,24 @@ export class DragComponent {
     }
 
     addColumnToGroup(columnName: string, group: string) {
-      console.log("Adding column:", columnName, "to group:", group); // Log the action
+      console.log("Adding column:", columnName, "to group:", group); 
+      console.log(this.columnGroups['group1'].length);// Log the action
+      if(this.columnGroups['group1'].length == 0){
+        this.columnGroups['group1'].push(columnName);
+        return;
+      } 
+       if (!this.columnGroups['group1'].includes(columnName)) {
+          // If not, add it to the group
+          this.columnGroups['group1'].push(columnName);
+        }
+ 
+      console.log(this.columnGroups['group1'].length);
 
       // Check if the column is already in the group
-      if (!this.columnGroups[group].includes(columnName)) {
-        // If not, add it to the group
-        this.columnGroups[group].push(columnName);
-      }
+      // if (!this.columnGroups[group].includes(columnName)) {
+      //   // If not, add it to the group
+      //   this.columnGroups[group].push(columnName);
+      // }
       console.log(...this.columnGroups['group1']);
       
 
@@ -101,11 +112,24 @@ export class DragComponent {
     }
 
     removeItem(column:string){
-      console.log(column, 'column');
+      console.log(column, 'column'); 
       const index = this.columnGroups['group1'].indexOf(column);
       this.columnGroups['group1'].splice(index, 1);
       console.log(...this.columnGroups['group1']);
     
       this.groupDataByDroppedColumn(column);
     }
+
+    onDragStart(event: CdkDragStart) {
+      this.addColumnToGroup(event.source.data, 'group1');
+    }
+
+    onHeaderDrop(event: CdkDragDrop<string[]>, groupId: string) {
+      console.log("valild");
+      const column = event.item.data; 
+      console.log(column, "columnName");// Get the dropped column
+      if (groupId === 'groupFirst') {
+          this.addColumnToGroup(column, groupId); // Call your existing method to add the column
+      }
+  }
 }
