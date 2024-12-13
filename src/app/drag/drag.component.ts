@@ -99,16 +99,7 @@ export class DragComponent {
  
       console.log(this.columnGroups['group1'].length);
 
-      // Check if the column is already in the group
-      // if (!this.columnGroups[group].includes(columnName)) {
-      //   // If not, add it to the group
-      //   this.columnGroups[group].push(columnName);
-      // }
-      console.log(...this.columnGroups['group1']);
-      
 
-      // Update displayedColumns based on the new order
-  //    this.displayedColumns = [...this.columnGroups['group1']];
     }
 
     removeItem(column:string){
